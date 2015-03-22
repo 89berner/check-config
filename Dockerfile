@@ -1,6 +1,7 @@
 FROM ubuntu:trusty
 MAINTAINER Juan Berner <89berner@gmail.com>
 RUN apt-get update
+ADD policy-rc.d /usr/sbin/policy-rc.d
 RUN apt-get install --yes nginx
 RUN mkdir /opt/check-config
 ADD check.sh /opt/check-config
