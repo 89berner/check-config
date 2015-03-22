@@ -6,8 +6,10 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
 ADD policy-rc.d /usr/sbin/policy-rc.d
 RUN apt-get install --yes nginx
-RUN mkdir /opt/check-config
-RUN mkdir /opt/check-config/sockets
+RUN apt-get install --yes curl
+RUN apt-get install --yes ruby 
+RUN gem install sinatra
+RUN mkdir -p /opt/check-config/sockets
 
 ADD ./check.sh /opt/check-config/
 ADD ./config.ru /opt/check-config/
