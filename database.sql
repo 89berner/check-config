@@ -1,9 +1,12 @@
+UPDATE mysql.user SET Password=PASSWORD('root') WHERE User='root';
+FLUSH PRIVILEGES;
+
 CREATE DATABASE  IF NOT EXISTS `check_config` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `check_config`;
 
-DROP TABLE IF EXISTS `pcheck_config`;
+DROP TABLE IF EXISTS `check_config`;
 
-CREATE TABLE `pcheck_config` (
+CREATE TABLE `check_config` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `datetime` datetime DEFAULT NULL,
   `setting` varchar(50) DEFAULT NULL,
@@ -19,8 +22,8 @@ CREATE TABLE `pcheck_config` (
   KEY `ip` (`ip`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5785988 DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS `pcheck_packages`;
-CREATE TABLE `pcheck_packages` (
+DROP TABLE IF EXISTS `check_packages`;
+CREATE TABLE `check_packages` (
   `ip` varchar(30) NOT NULL DEFAULT '',
   `package` varchar(100) NOT NULL DEFAULT '',
   `parch` varchar(50) NOT NULL DEFAULT '',
