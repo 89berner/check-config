@@ -6,8 +6,8 @@ require 'pp'
 
 def getconfigs(ip,con)
 	tmphash = Hash.new
-	puts "SELECT distinct file,setting,value,date  from pcheck_config where ip = \"#{ip}\" order by date desc"
-	res = con.query "SELECT distinct file,setting,value,date  from pcheck_config where ip = \"#{ip}\" order by date desc"
+	puts "SELECT distinct file,setting,value,date  from check_config where ip = \"#{ip}\" order by date desc"
+	res = con.query "SELECT distinct file,setting,value,date  from check_config where ip = \"#{ip}\" order by date desc"
 	puts "Finished query"
 	
 	res.each_hash do |row|
@@ -75,13 +75,13 @@ def getuploaded(con,hostname,ip)
   date = ""
   all = Array.new
 
-  resp = con.query("SELECT distinct date from pcheck_packages WHERE ip = \"#{ip}\" and hostname = \"#{hostname}\" order by date desc limit 1; ")
+  resp = con.query("SELECT distinct date from check_packages WHERE ip = \"#{ip}\" and hostname = \"#{hostname}\" order by date desc limit 1; ")
   resp.each_hash do |row|
           date = row['date']
           break
   end
 
-  resp = con.query("SELECT package,parch from pcheck_packages where ip = \"#{ip}\" and hostname = \"#{hostname}\" and date = \"#{date}\" ; ")
+  resp = con.query("SELECT package,parch from check_packages where ip = \"#{ip}\" and hostname = \"#{hostname}\" and date = \"#{date}\" ; ")
 
   resp.each_hash do |row|
       tmphash = Hash.new
@@ -95,17 +95,17 @@ end
 
 def keepalive(con)
 	while(1)
-		con.query("SELECT 1 from pcheck_packages limit 1")
+		con.query("SELECT 1 from check_packages limit 1")
 		sleep 60
 	end
 end
 
-def insert_packet(insert_patch,con,request,hash,hostname)
+def insert_packet(insert_patch,con,ip,hash,hostname)
   begin
-    insert_patch.execute request.ip, hash['paquete'], hash['parche'], Time.new.strftime("%Y-%m-%d %H"), hostname, Time.new.strftime("%Y-%m-%d %H:%M:%S")
-    puts "Packet #{hash['paquete']} - Version #{hash['parche']} from #{request.ip} !"
+    insert_patch.execute ip, hash['paquete'], hash['parche'], Time.new.strftime("%Y-%m-%d %H"), hostname, Time.new.strftime("%Y-%m-%d %H:%M:%S")
+    puts "Packet #{hash['paquete']} - Version #{hash['parche']} from #{ip} !"
   rescue
-    puts "Packet already pushed #{hash['paquete']} - Version #{hash['parche']} from #{request.ip}!"
+    puts "Packet already pushed #{hash['paquete']} - Version #{hash['parche']} from #{ip}!"
   end
 end
 
@@ -220,11 +220,11 @@ Thread.new {
 	keepalive(con)
 }
 
-post '/pcheck/upload' do
+post '/check/upload' do
      puts Time.now.strftime("%Y-%m-%d %H:%M:%S") +  "=>APPStart "
 
-     #ip = request.ip
-     ip = @env['HTTP_X_FORWARDED_FOR']
+     ip = request.ip
+     #ip = @env['HTTP_X_FORWARDED_FOR']
      hostname = "myhost"
      filename = params['data'][:filename]
      oldconfig = getconfigs(ip,con)
@@ -238,11 +238,11 @@ post '/pcheck/upload' do
 	     stored = getuploaded(con,hostname,ip)
 			
 	     req = 0
-	     diff = received_packets - old
+	     diff = received_packets - stored
 	
 	     diff.each do |hash|
 	           req = req + 1
-	           insert_packet(insert_patch,con,request,hash,hostname)
+	           insert_packet(insert_patch,con,ip,hash,hostname)
 	     end
 	
 	      puts "DPKG Processed"
