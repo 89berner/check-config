@@ -8,10 +8,13 @@ ADD policy-rc.d /usr/sbin/policy-rc.d
 RUN apt-get install --yes nginx
 RUN apt-get install --yes curl
 RUN apt-get install --yes ruby 
-RUN apt-get install --yes unicorn 
 RUN apt-get install --yes mysql-server
 RUN apt-get install --yes ruby-mysql
+RUN apt-get install --yes build-essential
+RUN sudo apt-get install --yes ruby1.9.1-dev
+
 RUN gem install sinatra
+RUN gem install unicorn
 
 RUN mkdir /opt/check-config/
 
