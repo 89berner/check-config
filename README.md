@@ -3,19 +3,17 @@ Simple and centralized configuration control for linux servers.<br/>
 
 Description: API to centralize configuration of different files. Using nginx and unicorn for scalability.<br/>
 
-Install instructions for stand alone api:<br/>
-
-git clone https://github.com/89berner/check-config.git <br/>
-apt-get install --yes ruby-mysql<br/>
-apt-get install --yes mysql-server<br/>
-wget http://www.uni.edu/~prefect/devel/chkconfig/chkconfig-v.5.tar.gz -O /tmp/chkconfig-v.5.tar.gz && cd /tmp/ && tar zxvf /tmp/chkconfig-v.5.tar.gz && cp /tmp/chkconfig-v.5/chkconfig /usr/local/bin/chkconfig && chmod 755 /usr/local/bin/chkconfig<br/>
-service mysql start &&  mysql -u root < /opt/check-config/database.sql<br/>
-nohup ruby api.rb debug &<br/>
-bash check.sh<br/>
-
-Install instructions for api with unicorn and nginx:<br/>
-
-See Dockerfile<br/>
+Install instructions for docker container:<br/><br/>
+docker pull 89berner/check_config <br/>
+docker run -i -t 89berner/check_config:v1 /bin/bash<br/>
+service mysql start<br/>
+nohup ruby /opt/check-config/api.rb debug & <br/>
+<br/>
+root@9031854177fe:/# bash /opt/check-config/check.sh<br/>
+File dpkg.tmp was uploaded<br/>
+6 elements were uploaded for sudoers<br/>
+25 elements were uploaded for chkconfig.tmp<br/><br/>
+<br/><br/>
 
 File description:<br/><br/>
 api.rb: Sinatra based web api to receive files as POST request and upload information to the database.<br/>
