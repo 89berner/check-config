@@ -5,13 +5,13 @@ Description: API to centralize configuration of different files. Using nginx and
 
 Install instructions for stand alone api:
 
-git clone https://github.com/89berner/check-config.git 
-apt-get install --yes ruby-mysql
-apt-get install --yes mysql-server
-wget http://www.uni.edu/~prefect/devel/chkconfig/chkconfig-v.5.tar.gz -O /tmp/chkconfig-v.5.tar.gz && cd /tmp/ && tar zxvf /tmp/chkconfig-v.5.tar.gz && cp /tmp/chkconfig-v.5/chkconfig /usr/local/bin/chkconfig && chmod 755 /usr/local/bin/chkconfig
-service mysql start &&  mysql -u root < /opt/check-config/database.sql
-nohup ruby api.rb debug &
-bash check.sh
+git clone https://github.com/89berner/check-config.git <br/>
+apt-get install --yes ruby-mysql<br/>
+apt-get install --yes mysql-server<br/>
+wget http://www.uni.edu/~prefect/devel/chkconfig/chkconfig-v.5.tar.gz -O /tmp/chkconfig-v.5.tar.gz && cd /tmp/ && tar zxvf /tmp/chkconfig-v.5.tar.gz && cp /tmp/chkconfig-v.5/chkconfig /usr/local/bin/chkconfig && chmod 755 /usr/local/bin/chkconfig<br/>
+service mysql start &&  mysql -u root < /opt/check-config/database.sql<br/>
+nohup ruby api.rb debug &<br/>
+bash check.sh<br/>
 
 Install instructions for api with unicorn and nginx:
 
