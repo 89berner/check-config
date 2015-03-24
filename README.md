@@ -17,7 +17,7 @@ Install instructions for api with unicorn and nginx:<br/>
 
 See Dockerfile<br/>
 
-File description:<br/>
+File description:<br/><br/>
 api.rb: Sinatra based web api to receive files as POST request and upload information to the database.<br/>
 check.sh: Example bash script to upload files to the api.<br/>
 database.sql: SQL script to create the database.<br/>
