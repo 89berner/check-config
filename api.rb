@@ -191,15 +191,15 @@ end
 
 def connectlocal()
   begin
+      con = Mysql.new 'localhost', 'root' , 'root' , 'check_config' 
       puts "Conecto a mysql!"
-      con = Mysql.new '172.16.125.102', 'root' , 'root' , 'test_db' 
       rs = con.query 'SELECT VERSION()'
   rescue Mysql::Error => e
       puts e.errno
       puts e.error
       abort ("Error connecting to the database")
   ensure
-      con.close if con
+      #con.close if con
   end
 
   return con
@@ -264,5 +264,9 @@ post '/pcheck/upload' do
 		return "File #{filename} was uploaded\n"
 	end
 end
+
+	if ARGV[0] == "debug"
+		run!
+	end
 
 end
