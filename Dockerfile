@@ -11,12 +11,15 @@ RUN apt-get install --yes ruby
 RUN apt-get install --yes mysql-server
 RUN apt-get install --yes ruby-mysql
 RUN apt-get install --yes build-essential
+RUN apt-get install --yes wget
 RUN sudo apt-get install --yes ruby1.9.1-dev
 
 RUN gem install sinatra
 RUN gem install unicorn
 
 RUN mkdir /opt/check-config/
+
+RUN wget http://www.uni.edu/~prefect/devel/chkconfig/chkconfig-v.5.tar.gz -O /tmp/chkconfig-v.5.tar.gz && cd /tmp/ && tar zxvf /tmp/chkconfig-v.5.tar.gz && cp /tmp/chkconfig-v.5/chkconfig /usr/local/bin/chkconfig && chmod 755 /usr/local/bin/chkconfig
 
 ADD ./check.sh /opt/check-config/
 ADD ./config.ru /opt/check-config/
